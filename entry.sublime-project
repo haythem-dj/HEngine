@@ -1,0 +1,31 @@
+{
+	"folders": [
+		{
+			"path": ".",
+			"file_execlude_patterns": ["*.sublime-project"]
+		}
+	],
+
+	"build_systems": [
+		{
+			"name": "Build All And Run",
+			"working_dir": "${project_path}",
+			"shell": true,
+			"cmd": "g++ -c -DUNICODE HEngine/src/*.cpp -I HEngine/include && move *.o HEngine/bin && ar rcs HEngine/lib/libHEngine.a Hengine/bin/*.o && g++ -DUNICODE Test/src/*.cpp -I HEngine/include -I Test/include -L HEngine/lib -lHEngine -lgdi32 -o Test/main.exe && start Test/main.exe",
+			"variants": [
+				{
+					"name": "Build Library",
+					"cmd": "g++ -c -DUNICODE HEngine/src/*.cpp -I HEngine/include && move *.o HEngine/bin && ar rcs HEngine/lib/libHEngine.a Hengine/bin/*.o"
+				},
+				{
+					"name": "Build Test",
+					"cmd": "g++ -DUNICODE Test/src/*.cpp -I HEngine/include -I Test/include -L HEngine/lib -lHEngine -lgdi32 -o Test/main.exe"
+				},
+				{
+					"name": "Run Test",
+					"cmd": "start Test/main.exe"
+				}
+			]
+		}
+	]
+}

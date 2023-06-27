@@ -1,0 +1,6 @@
+entry.sublime-workspace
+
+*.exe
+
+bin/
+lib/
