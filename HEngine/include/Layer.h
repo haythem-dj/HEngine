@@ -8,6 +8,5 @@ namespace HEngine
 		~Layer() = default;
 		virtual void OnResize(int width, int height) {}
 		virtual void OnUpdate(float dt) {}
-		virtual void OnRender() {}
 	};
 }

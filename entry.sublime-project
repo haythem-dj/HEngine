@@ -2,27 +2,31 @@
 	"folders": [
 		{
 			"path": ".",
-			"file_execlude_patterns": ["*.sublime-project"]
+			"file_execulde_patterns": ["*.sulbime-project"]
 		}
 	],
 
 	"build_systems": [
 		{
-			"name": "Build All And Run",
+			"name": "build and run",
 			"working_dir": "${project_path}",
 			"shell": true,
-			"cmd": "g++ -c -DUNICODE HEngine/src/*.cpp -I HEngine/include && move *.o HEngine/bin && ar rcs HEngine/lib/libHEngine.a Hengine/bin/*.o && g++ -DUNICODE Test/src/*.cpp -I HEngine/include -I Test/include -L HEngine/lib -lHEngine -lgdi32 -o Test/main.exe && start Test/main.exe",
+			"cmd": "g++ -DUNICODE -c HEngine/src/*.cpp -I HEngine/include -L HEngine/lib -lgdi32 && move *.o HEngine/bin && ar rvs HEngine/lib/libHEngine.a HEngine/bin/*.o && g++ --std=c++17 -DUNICODE Test/src/*.cpp -I HEngine/include -I Test/include -L HEngine/lib -lHEngine -lgdi32 -o Test/main && start Test/main.exe",
 			"variants": [
 				{
-					"name": "Build Library",
-					"cmd": "g++ -c -DUNICODE HEngine/src/*.cpp -I HEngine/include && move *.o HEngine/bin && ar rcs HEngine/lib/libHEngine.a Hengine/bin/*.o"
+					"name": "build engine",
+					"cmd": "g++ -DUNICODE -c HEngine/src/*.cpp -I HEngine/include -L HEngine/lib -lgdi32 && move *.o HEngine/bin && ar rvs HEngine/lib/libHEngine.a HEngine/bin/*.o"
 				},
 				{
-					"name": "Build Test",
-					"cmd": "g++ -DUNICODE Test/src/*.cpp -I HEngine/include -I Test/include -L HEngine/lib -lHEngine -lgdi32 -o Test/main.exe"
+					"name": "build and run test",
+					"cmd": "g++ -DUNICODE Test/src/*.cpp -I HEngine/include -I Test/include -L HEngine/lib -lHEngine -lgdi32 -o Test/main && start Test/main.exe"
 				},
 				{
-					"name": "Run Test",
+					"name": "build test",
+					"cmd": "g++ -DUNICODE Test/src/*.cpp -I HEngine/include -I Test/include -L HEngine/lib -lHEngine -lgdi32 -o Test/main"
+				},
+				{
+					"name": "run test",
 					"cmd": "start Test/main.exe"
 				}
 			]

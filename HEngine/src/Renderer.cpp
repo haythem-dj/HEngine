@@ -30,6 +30,12 @@ namespace HEngine
 		StretchDIBits(hdc, 0, 0, Width, Height, 0, 0, Width, Height, (const void*)pixels, &Bitmapinfo, DIB_RGB_COLORS, SRCCOPY);
 	}
 
+	void Renderer::FillScreen(uint32_t color)
+	{
+		for (int i = 0; i < Width*Height; i++)
+			pixels[i] = color;
+	}
+
 	void Renderer::DrawRect(int x, int y, int w, int h, uint32_t color)
 	{
 		for (int i = x; i < x + w; i++)

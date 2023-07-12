@@ -100,7 +100,7 @@ namespace HEngine
 
 		Bitmapinfo.bmiHeader.biSize = sizeof(Bitmapinfo.bmiHeader);
 		Bitmapinfo.bmiHeader.biWidth = ViewportWidth;
-		Bitmapinfo.bmiHeader.biHeight = -ViewportHeight;
+		Bitmapinfo.bmiHeader.biHeight = ViewportHeight;
 		Bitmapinfo.bmiHeader.biPlanes = 1;
 		Bitmapinfo.bmiHeader.biBitCount = 32;
 		Bitmapinfo.bmiHeader.biCompression = BI_RGB;
@@ -136,7 +136,7 @@ namespace HEngine
 		ViewportHeight = height;
 
 		Bitmapinfo.bmiHeader.biWidth = ViewportWidth;
-		Bitmapinfo.bmiHeader.biHeight = -ViewportHeight;
+		Bitmapinfo.bmiHeader.biHeight = ViewportHeight;
 
 		renderer.OnResize(width, height);
 
@@ -155,10 +155,7 @@ namespace HEngine
 			}
 
 			for(Layer* layer : LayerStack)
-			{
 				layer->OnUpdate(1.0f);
-				layer->OnRender();
-			}
 
 			renderer.DrawPixels(hdc, Bitmapinfo);
 		}
