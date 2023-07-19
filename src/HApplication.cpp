@@ -1,6 +1,6 @@
-#include "Application.h"
+#include "HApplication.h"
 
-static HEngine::Application* Instance = nullptr;
+static HEngine::HApplication* Instance = nullptr;
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -18,16 +18,16 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		int width = LOWORD(lParam);
 		int height = HIWORD(lParam);
-		HEngine::Application::Get().Resize(width, height);
+		HEngine::HApplication::Get().Resize(width, height);
 		return 0;
 	}
 
 	case WM_KEYDOWN:
-		HEngine::Event::keys[wParam] = 1;
+		HEngine::HEvent::keys[wParam] = 1;
 		break;
 
 	case WM_KEYUP:
-		HEngine::Event::keys[wParam] = 0;
+		HEngine::HEvent::keys[wParam] = 0;
 		break;
 	}
 
@@ -36,7 +36,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 namespace HEngine
 {
-	Application::Application(int width, int height)
+	HApplication::HApplication(int width, int height)
 	{
 		ViewportWidth = width;
 		ViewportHeight = height;
@@ -44,18 +44,18 @@ namespace HEngine
 		Init();
 	}
 
-	Application::~Application()
+	HApplication::~HApplication()
 	{
 		Clean();
 		Instance = nullptr;
 	}
 
-	Application& Application::Get()
+	HApplication& HApplication::Get()
 	{
 		return *Instance;
 	}
 
-	void Application::Init()
+	void HApplication::Init()
 	{
 		const wchar_t* CLASS_NAME = L"class name";
 
@@ -112,22 +112,22 @@ namespace HEngine
 		Running = true;
 	}
 
-	void Application::Clean()
+	void HApplication::Clean()
 	{
 		const wchar_t* CLASS_NAME = L"class name";
 
-		for(Layer* layer : LayerStack)
+		for(HLayer* layer : LayerStack)
 			delete layer;
 
 		UnregisterClass(CLASS_NAME, hInstance);
 	}
 
-	void Application::PushLayer(Layer* layer)
+	void HApplication::PushLayer(HLayer* layer)
 	{
 		LayerStack.emplace_back(layer);
 	}
 
-	void Application::Resize(int width, int height)
+	void HApplication::Resize(int width, int height)
 	{
 		if(ViewportWidth == width && ViewportHeight == height)
 			return;
@@ -140,11 +140,11 @@ namespace HEngine
 
 		renderer.OnResize(width, height);
 
-		for(Layer* layer : LayerStack)
+		for(HLayer* layer : LayerStack)
 			layer->OnResize(width, height);
 	}
 
-	void Application::Run()
+	void HApplication::Run()
 	{
 		while(Running)
 		{
@@ -154,14 +154,14 @@ namespace HEngine
 				continue;
 			}
 
-			for(Layer* layer : LayerStack)
+			for(HLayer* layer : LayerStack)
 				layer->OnUpdate(1.0f);
 
 			renderer.DrawPixels(hdc, Bitmapinfo);
 		}
 	}
 
-	bool Application::ProccessMessages()
+	bool HApplication::ProccessMessages()
 	{
 		MSG msg = {};
 

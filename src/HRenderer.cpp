@@ -1,23 +1,23 @@
-#include "Renderer.h"
+#include "HRenderer.h"
 
 namespace HEngine
 {
-	Renderer::Renderer()
+	HRenderer::HRenderer()
 	{}
 
-	Renderer::~Renderer()
+	HRenderer::~HRenderer()
 	{
 		delete pixels;
 	}
 
-	void Renderer::OnInit(int width , int height)
+	void HRenderer::OnInit(int width , int height)
 	{
 		Width = width;
 		Height = height;
 		pixels = new uint32_t[Width*Height] {0};
 	}
 
-	void Renderer::OnResize(int width, int height)
+	void HRenderer::OnResize(int width, int height)
 	{
 		Width = width;
 		Height = height;
@@ -25,18 +25,18 @@ namespace HEngine
 		pixels = new uint32_t[Width*Height];
 	}
 
-	void Renderer::DrawPixels(HDC hdc, BITMAPINFO Bitmapinfo)
+	void HRenderer::DrawPixels(HDC hdc, BITMAPINFO Bitmapinfo)
 	{
 		StretchDIBits(hdc, 0, 0, Width, Height, 0, 0, Width, Height, (const void*)pixels, &Bitmapinfo, DIB_RGB_COLORS, SRCCOPY);
 	}
 
-	void Renderer::FillScreen(uint32_t color)
+	void HRenderer::FillScreen(uint32_t color)
 	{
 		for (int i = 0; i < Width*Height; i++)
 			pixels[i] = color;
 	}
 
-	void Renderer::DrawRect(int x, int y, int w, int h, uint32_t color)
+	void HRenderer::DrawRect(int x, int y, int w, int h, uint32_t color)
 	{
 		for (int i = x; i < x + w; i++)
 			for (int j = y; j < y + h; j++)

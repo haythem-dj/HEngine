@@ -5,11 +5,11 @@
 
 namespace HEngine
 {
-	class Renderer
+	class HRenderer
 	{
 	public:
-		Renderer();
-		~Renderer();
+		HRenderer();
+		~HRenderer();
 
 		void OnInit(int width, int height);
 		void OnResize(int width, int height);

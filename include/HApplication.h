@@ -2,23 +2,23 @@
 
 #include <vector>
 
-#include "Layer.h"
-#include "Event.h"
-#include "Renderer.h"
+#include "HLayer.h"
+#include "HEvent.h"
+#include "HRenderer.h"
 
 namespace HEngine
 {
-	class Application
+	class HApplication
 	{
 	public:
-		Application(int width, int height);
-		Application(const Application&) = delete;
-		Application operator= (const Application&) = delete;
-		~Application();
+		HApplication(int width, int height);
+		HApplication(const HApplication&) = delete;
+		HApplication operator= (const HApplication&) = delete;
+		~HApplication();
 
-		static Application& Get();
+		static HApplication& Get();
 
-		void PushLayer(Layer* layer);
+		void PushLayer(HLayer* layer);
 
 		void Resize(int width, int height);
 
@@ -27,7 +27,7 @@ namespace HEngine
 
 		int GetViewportWidth() const { return ViewportWidth; }
 		int GetViewportHeight() const { return ViewportHeight; } 
-		const Renderer& GetRenderer() const { return renderer; }
+		const HRenderer& GetRenderer() const { return renderer; }
 
 	private:
 		void Init();
@@ -40,13 +40,13 @@ namespace HEngine
 
 		bool Running = false;
 
-		std::vector<Layer*> LayerStack;
+		std::vector<HLayer*> LayerStack;
 
 		HINSTANCE hInstance;
 		HWND hwnd;
 		HDC hdc;
 		BITMAPINFO Bitmapinfo;
 
-		Renderer renderer;
+		HRenderer renderer;
 	};
 }

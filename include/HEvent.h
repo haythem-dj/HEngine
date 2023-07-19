@@ -13,7 +13,7 @@ namespace HEngine
 
 	};
 
-	class Event
+	class HEvent
 	{
 	public:
 		static bool IsKeyDown(KeyCode key);

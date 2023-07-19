@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Application.h"
+#include "HApplication.h"
 
-extern HEngine::Application* CreateApplication();
+extern HEngine::HApplication* CreateApplication();
 
 namespace HEngine
 {
 	static int Main(int argc, char** argv)
 	{
-		Application* app = CreateApplication();
+		HApplication* app = CreateApplication();
 		app->Run();
 		delete app;
 		return 0;
