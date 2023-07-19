@@ -165,7 +165,7 @@ namespace HEngine
 
 			renderer.DrawPixels(hdc, Bitmapinfo);
 
-			int frmaeEnd = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+			int frameEnd = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
 			dt = (frameEnd - frameStart) / 1000.0f;
 		}

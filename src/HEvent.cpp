@@ -16,11 +16,11 @@ namespace HEngine
 
 	bool HEvent::IsMouseButtonDown(MouseButton button)
 	{
-
+		return false;
 	}
 
 	bool HEvent::IsMouseButtonUp(MouseButton button)
 	{
-
+		return false;
 	}
 }
