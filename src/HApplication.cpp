@@ -1,3 +1,5 @@
+#include <chrono>
+
 #include "HApplication.h"
 
 static HEngine::HApplication* Instance = nullptr;
@@ -146,8 +148,12 @@ namespace HEngine
 
 	void HApplication::Run()
 	{
+		float dt = 1.0f;
+
 		while(Running)
 		{
+			int frameStart = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+
 			if(!ProccessMessages())
 			{
 				Running = false;
@@ -155,9 +161,13 @@ namespace HEngine
 			}
 
 			for(HLayer* layer : LayerStack)
-				layer->OnUpdate(1.0f);
+				layer->OnUpdate(dt);
 
 			renderer.DrawPixels(hdc, Bitmapinfo);
+
+			int frmaeEnd = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+
+			dt = (frameEnd - frameStart) / 1000.0f;
 		}
 	}
 
