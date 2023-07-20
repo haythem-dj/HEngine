@@ -165,7 +165,7 @@ namespace HEngine
 
 			renderer.DrawPixels(hdc, Bitmapinfo);
 
-			ULONGLONG frameEnd = GetTickCount();
+			ULONGLONG frameEnd = GetTickCount64();
 
 			dt = (frameEnd - frameStart) / 1000.0f;
 		}
