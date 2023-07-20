@@ -1,5 +1,11 @@
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
+*.sln
 
 x64/
+.vs/
+Test/
+Dev/
+bin/
+bin-int/
