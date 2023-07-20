@@ -152,7 +152,7 @@ namespace HEngine
 
 		while(Running)
 		{
-			int frameStart = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+			ULONGLONG frameStart = GetTickCount64();
 
 			if(!ProccessMessages())
 			{
@@ -165,7 +165,7 @@ namespace HEngine
 
 			renderer.DrawPixels(hdc, Bitmapinfo);
 
-			int frameEnd = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+			ULONGLONG frameEnd = GetTickCount();
 
 			dt = (frameEnd - frameStart) / 1000.0f;
 		}
