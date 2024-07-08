@@ -7,7 +7,13 @@ namespace HEngine
 
 	HRenderer::~HRenderer()
 	{
-		delete pixels;
+		delete[] pixels;
+	}
+
+	HRenderer& HRenderer::Get()
+	{
+		static HRenderer instance;
+		return instance;
 	}
 
 	void HRenderer::OnInit(int width , int height)
@@ -21,13 +27,8 @@ namespace HEngine
 	{
 		Width = width;
 		Height = height;
-		delete pixels;
+		delete[] pixels;
 		pixels = new uint32_t[Width*Height];
-	}
-
-	void HRenderer::DrawPixels(HDC hdc, BITMAPINFO Bitmapinfo)
-	{
-		StretchDIBits(hdc, 0, 0, Width, Height, 0, 0, Width, Height, (const void*)pixels, &Bitmapinfo, DIB_RGB_COLORS, SRCCOPY);
 	}
 
 	void HRenderer::FillScreen(uint32_t color)

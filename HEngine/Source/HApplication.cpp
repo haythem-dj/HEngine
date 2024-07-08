@@ -1,61 +1,57 @@
-#include <chrono>
-
 #include "HApplication.h"
 
-static HEngine::HApplication* Instance = nullptr;
-
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+namespace
 {
-	switch(uMsg)
+	LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
-	case WM_CLOSE:
-		DestroyWindow(hwnd);
-		break;
+		switch(uMsg)
+		{
+		case WM_CLOSE:
+			DestroyWindow(hwnd);
+			break;
 
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
+		case WM_DESTROY:
+			PostQuitMessage(0);
+			break;
 
-	case WM_SIZE:
-	{
-		int width = LOWORD(lParam);
-		int height = HIWORD(lParam);
-		HEngine::HApplication::Get().Resize(width, height);
-		return 0;
+		case WM_SIZE:
+		{
+			int width = LOWORD(lParam);
+			int height = HIWORD(lParam);
+			// HEngine::HApplication::Get().Resize(width, height);
+			return 0;
+		}
+
+		case WM_KEYDOWN:
+			HEngine::HEvent::keys[wParam] = 1;
+			break;
+	
+		case WM_KEYUP:
+			HEngine::HEvent::keys[wParam] = 0;
+			break;
+		}
+
+		return DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
-
-	case WM_KEYDOWN:
-		HEngine::HEvent::keys[wParam] = 1;
-		break;
-
-	case WM_KEYUP:
-		HEngine::HEvent::keys[wParam] = 0;
-		break;
-	}
-
-	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
 namespace HEngine
 {
-	HApplication::HApplication(int width, int height)
+	HApplication::HApplication()
 	{
-		ViewportWidth = width;
-		ViewportHeight = height;
-		Instance = this;
 		Init();
 	}
 
 	HApplication::~HApplication()
 	{
 		Clean();
-		Instance = nullptr;
 	}
 
-	HApplication& HApplication::Get()
-	{
-		return *Instance;
-	}
+	// HApplication& HApplication::Get()
+	// {
+	// 	static HApplication instance;
+	// 	return instance;
+	// }
 
 	void HApplication::Init()
 	{
@@ -109,8 +105,6 @@ namespace HEngine
 
 		hdc = GetDC(hwnd);
 
-		renderer.OnInit(ViewportWidth, ViewportHeight);
-
 		Running = true;
 	}
 
@@ -140,7 +134,7 @@ namespace HEngine
 		Bitmapinfo.bmiHeader.biWidth = ViewportWidth;
 		Bitmapinfo.bmiHeader.biHeight = ViewportHeight;
 
-		renderer.OnResize(width, height);
+		HRenderer::Get().OnResize(width, height);
 
 		for(HLayer* layer : LayerStack)
 			layer->OnResize(width, height);
@@ -163,7 +157,7 @@ namespace HEngine
 			for(HLayer* layer : LayerStack)
 				layer->OnUpdate(dt);
 
-			renderer.DrawPixels(hdc, Bitmapinfo);
+			StretchDIBits(hdc, 0, 0, ViewportWidth, ViewportHeight, 0, 0, ViewportWidth, ViewportHeight, (const void*) HRenderer::Get().GetPixels(), &Bitmapinfo, DIB_RGB_COLORS, SRCCOPY);
 
 			ULONGLONG frameEnd = GetTickCount64();
 
