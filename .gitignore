@@ -3,8 +3,9 @@
 *.vcxproj.user
 *.sln
 
-x64/
-.vs/
-Dev/
 bin/
 obj/
+
+*.sublime-project
+*.sublime-workspace
+Makefile
